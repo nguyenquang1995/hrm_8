@@ -3,6 +3,7 @@ package com.framgia.project1.humanresourcemanagement.ui.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import com.framgia.project1.humanresourcemanagement.R;
 
 public class ListStaffActivity extends AppCompatActivity {

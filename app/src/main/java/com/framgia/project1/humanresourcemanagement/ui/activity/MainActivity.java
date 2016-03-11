@@ -10,10 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.framgia.project1.humanresourcemanagement.data.model.DepartmentDAO;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewDepartmentAdapter;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.R;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

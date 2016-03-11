@@ -1,6 +1,13 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
-public class Department {
+import android.database.Cursor;
+
+import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
+
+/**
+ * Created by nguyenxuantung on 11/03/2016.
+ */
+public class Department implements DBSchemaConstant {
     private String name;
     private int id;
     private String image;
@@ -9,6 +16,12 @@ public class Department {
         this.name = name;
         this.id = id;
         this.image = image;
+    }
+
+    public Department(Cursor cursor) {
+        this.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_DEPARTMENT));
+        this.name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEPARTMENT));
+        this.image = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_DEPARTMENT));
     }
 
     public String getName() {
