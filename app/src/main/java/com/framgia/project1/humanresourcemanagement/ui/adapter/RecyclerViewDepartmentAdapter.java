@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.ui.activity.ListStaffActivity;
+
 import java.util.List;
 
 /**
@@ -43,11 +45,13 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
 
     class DepartmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView textView;
+
         DepartmentViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             textView = (TextView) itemView.findViewById(R.id.text_view_department);
         }
+
         @Override
         public void onClick(View v) {
             mContext.startActivity(new Intent(mContext, ListStaffActivity.class));

@@ -1,5 +1,26 @@
 <resources>
     <string name="app_name">"HumanResourceManagement "</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="nav_item_home">Home</string>
+    <string name="nav_item_friends">Friends</string>
+    <string name="nav_item_notifications">Messages</string>
+
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_home</item>
+        <item>@string/nav_item_friends</item>
+        <item>@string/nav_item_notifications</item>
+    </string-array>
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="edit_home">Sửa fragment_home.xml để thay đổi giao diện</string>
+    <string name="edit_friend">Sửa fragment_friends.xml để thay đổi giao diện</string>
+    <string name="edit_message">Sửa fragment_message.xml để thay đổi giao diện</string>
     <string name="action_search">Search</string>
     <string name="main_screen_title">List Department</string>
     <string name="title_activity_add_staff">Add Staff</string>
