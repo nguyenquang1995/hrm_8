@@ -1,9 +1,7 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
 import android.database.Cursor;
-
 import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
-
 /**
  * Created by nguyenxuantung on 11/03/2016.
  */
