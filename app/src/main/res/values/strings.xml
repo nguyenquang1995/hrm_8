@@ -25,4 +25,10 @@
     <string name="main_screen_title">List Department</string>
     <string name="title_activity_add_staff">Add Staff</string>
     <string name="title_activity_list_staff">List Staff</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="place_of_birth">Place of birth</string>
+    <string name="birthday">Birthday</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="position">Position</string>
+    <string name="status">Status</string>
 </resources>

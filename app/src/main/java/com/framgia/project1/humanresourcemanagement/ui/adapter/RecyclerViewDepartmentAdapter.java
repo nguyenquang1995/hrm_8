@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.framgia.project1.humanresourcemanagement.R;
+import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.ui.activity.ListStaffActivity;
 
@@ -54,7 +55,10 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
 
         @Override
         public void onClick(View v) {
-            mContext.startActivity(new Intent(mContext, ListStaffActivity.class));
+            Department department = listDepartment.get(getPosition());
+            Intent intent = new Intent(mContext, ListStaffActivity.class);
+            intent.putExtra(Constant.INTENT_DATA_TITLE, department.getName());
+            mContext.startActivity(intent);
         }
     }
 }
