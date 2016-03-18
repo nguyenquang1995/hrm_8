@@ -4,10 +4,19 @@
     <color name="primary_dark">#D32F2F</color>
     <color name="primary_light">#FFCDD2</color>
     <color name="accent">#009688</color>
-    <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="department">#7E57C2</color>
+    <color name="red">#F00</color>
+    <color name="green">#0F0</color>
+    <color name="blue">#00F</color>
+    <color name="yellow">#FF0</color>
+    <integer-array name="color_array">
+        <item>@color/red</item>
+        <item>@color/green</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+    </integer-array>
 </resources>
 

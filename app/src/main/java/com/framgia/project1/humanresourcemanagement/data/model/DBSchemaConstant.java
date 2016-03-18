@@ -1,8 +1,5 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
-/**
- * Created by nguyenxuantung on 14/03/2016.
- */
 public interface DBSchemaConstant {
 
     // columns of tblDepartment

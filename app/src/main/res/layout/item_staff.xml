@@ -6,7 +6,7 @@
 <ImageView
     android:layout_width="@dimen/staff_height"
     android:layout_height="match_parent"
-    android:src="@drawable/department_icon"/>
+    android:src="@drawable/staff_avartar_default"/>
 <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"

@@ -4,21 +4,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
 import com.framgia.project1.humanresourcemanagement.data.model.DBSchemaConstant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
-
 import java.sql.SQLData;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by nguyenxuantung on 11/03/2016.
- */
 public class DatabaseRemote implements DBSchemaConstant {
 
     private SQLiteDatabase database;
@@ -114,6 +109,38 @@ public class DatabaseRemote implements DBSchemaConstant {
             cursor.moveToNext();
         }
         cursor.close();
+        return staffList;
+    }
+
+    public List<Staff> getListStaff(int departmentId) {
+        List<Staff> staffList = new ArrayList<>();
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_ID_DEPARTMENT + " = " + departmentId;
+        Cursor cursor = null;
+        cursor = database.rawQuery(query, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                staffList.add(new Staff(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return staffList;
+    }
+
+    public List<Staff> getListStaff(String staffName) {
+        List<Staff> staffList = new ArrayList<>();
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_NAME_STAFF + " like '%" + staffName + "%'" ;
+        Cursor cursor = null;
+        cursor = database.rawQuery(query, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                staffList.add(new Staff(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
         return staffList;
     }
 
