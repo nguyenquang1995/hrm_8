@@ -5,15 +5,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewProfileAdapter;
+
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private List mProfileData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

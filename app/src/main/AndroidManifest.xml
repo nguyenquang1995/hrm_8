@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.framgia.project1.humanresourcemanagement">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,12 +22,20 @@
         <activity
             android:name=".ui.activity.ListStaffActivity"
             android:label="@string/title_activity_list_staff"
-            android:theme="@style/MyTheme"
-            android:parentActivityName=".ui.activity.MainActivity" />
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".ui.activity.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/MyTheme"/>
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.activity.SearchResultActivity"
+            android:label="@string/title_activity_search_result"
+            android:parentActivityName=".ui.activity.MainActivity"
+            android:theme="@style/MyTheme" />
+        <activity
+            android:name=".ui.activity.InputStaffInfoActivity"
+            android:label="@string/title_activity_input_staff_info"
+            android:theme="@style/MyTheme" />
     </application>
-
 </manifest>

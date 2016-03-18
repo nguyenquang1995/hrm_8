@@ -1,139 +1,43 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
+import android.content.Context;
+import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDAO {
+    private Context context;
+    private DatabaseRemote mDatabaseRemote;
     private List<Department> listDepartment;
-
     public static List createDummyDepartmentData() {
         List<Department> listDepartment = new ArrayList<Department>();
         listDepartment.add(new Department("Trainning", 1, ""));
         listDepartment.add(new Department("Singapore", 2, ""));
         listDepartment.add(new Department("crew", 3, ""));
-        listDepartment.add(new Department("Trainning", 4, ""));
-        listDepartment.add(new Department("Singapore", 5, ""));
-        listDepartment.add(new Department("crew", 6, ""));
-        listDepartment.add(new Department("Trainning", 7, ""));
-        listDepartment.add(new Department("Singapore", 8, ""));
-        listDepartment.add(new Department("crew", 9, ""));
+        listDepartment.add(new Department("Asia", 4, ""));
+        listDepartment.add(new Department("HR Department", 5, ""));
         return listDepartment;
     }
-
-    public static List createDummyStaffData() {
-        List<Staff> listStaff = new ArrayList<Staff>();
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang2", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang3", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Van Quang", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang5", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang6", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Nguyen Thi Tuyet Nhung", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang8", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang9", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang10", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang11", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang12", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang13", "2/9/1995", "Ha Noi", "123556666", ""));
-        listStaff.add(new Staff(1, 1, 1, 1, "Quang14", "2/9/1995", "Ha Noi", "123556666", ""));
-        return listStaff;
+    public DepartmentDAO(Context context) {
+        this.context = context;
+    }
+    public List<Department> getListDepartment() {
+        mDatabaseRemote = new DatabaseRemote(context);
+        try {
+            mDatabaseRemote.openDataBase();
+            if (mDatabaseRemote.getDepartmentList().size() < 0) {
+                listDepartment = DepartmentDAO.createDummyDepartmentData();
+                int listDepartmentSize = listDepartment.size();
+                for (int i = 0; i < listDepartmentSize; i++) {
+                    mDatabaseRemote.insertDepartment(listDepartment.get(i));
+                }
+            } else
+                listDepartment = mDatabaseRemote.getDepartmentList();
+            mDatabaseRemote.closeDataBase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listDepartment;
     }
 }

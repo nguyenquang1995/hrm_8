@@ -58,6 +58,7 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
             Department department = listDepartment.get(getPosition());
             Intent intent = new Intent(mContext, ListStaffActivity.class);
             intent.putExtra(Constant.INTENT_DATA_TITLE, department.getName());
+            intent.putExtra(Constant.INTENT_DATA, department.getId());
             mContext.startActivity(intent);
         }
     }

@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
+import com.framgia.project1.humanresourcemanagement.ui.activity.InputStaffInfoActivity;
 import com.framgia.project1.humanresourcemanagement.ui.activity.ProfileActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,27 +47,59 @@ public class RecyclerViewStaffAdapter extends RecyclerView.Adapter<RecyclerViewS
         return mListStaff.size();
     }
 
-    class StaffViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class StaffViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         protected TextView textViewName;
+
         public StaffViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             textViewName = (TextView) itemView.findViewById(R.id.text_view_staff_name);
         }
 
         @Override
         public void onClick(View v) {
+            startProfileActivity();
+        }
+
+        private void startProfileActivity() {
             Staff staff = mListStaff.get(getPosition());
             ArrayList<String> profileData = new ArrayList<String>();
             profileData.add(Constant.PLACE_OF_BIRTH, staff.getPlaceOfBirth());
             profileData.add(Constant.BIRTH_DAY, staff.getBirthday());
             profileData.add(Constant.PHONE_NUMBER, staff.getPhoneNumber());
             profileData.add(Constant.POSITION, "");
-            profileData.add(Constant.STATUS, "");
+            switch (staff.getStatus()) {
+                case Constant.STATUS_LEFT_JOB:
+                    profileData.add(Constant.STATUS, "left-job");
+                    break;
+                case Constant.STATUS_INTERNSHIP:
+                    profileData.add(Constant.STATUS, "InternShip");
+                    break;
+                case Constant.STATUS_TRAINEE:
+                    profileData.add(Constant.STATUS, "Trainee");
+                    break;
+                case Constant.STATUS_OFFICAL_STAFF:
+                    profileData.add(Constant.STATUS, "Offical staff");
+                    break;
+            }
             Intent intent = new Intent(mContext, ProfileActivity.class);
             intent.putStringArrayListExtra(Constant.INTENT_DATA, profileData);
             intent.putExtra(Constant.INTENT_DATA_TITLE, staff.getName());
             mContext.startActivity(intent);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            Staff staff = mListStaff.get(getPosition());
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constant.ID_INTENT, staff.getId());
+            Intent intent = new Intent(mContext, InputStaffInfoActivity.class);
+            intent.putExtra(Constant.INTENT_DATA_TITLE, R.string.changeprofile);
+            intent.putExtra(Constant.ID, bundle);
+            mContext.startActivity(intent);
+            return true;
+
         }
     }
 }

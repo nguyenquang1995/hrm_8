@@ -1,10 +1,9 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
 import android.database.Cursor;
+
 import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
-/**
- * Created by nguyenxuantung on 11/03/2016.
- */
+
 public class Staff implements DBSchemaConstant {
     private int id;
     private int idDepartment;
@@ -16,8 +15,21 @@ public class Staff implements DBSchemaConstant {
     private String phoneNumber;
     private String imageAvatar;
 
-    public Staff(int id, int idDepartment, int status, int position, String name, String birthday, String placeOfBirth, String phoneNumber, String imageAvatar) {
+    public Staff(int id, int idDepartment, int status, int position, String name,
+                 String birthday, String placeOfBirth, String phoneNumber, String imageAvatar) {
         this.id = id;
+        this.idDepartment = idDepartment;
+        this.status = status;
+        this.position = position;
+        this.name = name;
+        this.birthday = birthday;
+        this.placeOfBirth = placeOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.imageAvatar = imageAvatar;
+    }
+
+    public Staff(int idDepartment, int status, int position, String name,
+                 String birthday, String placeOfBirth, String phoneNumber, String imageAvatar) {
         this.idDepartment = idDepartment;
         this.status = status;
         this.position = position;
@@ -30,9 +42,9 @@ public class Staff implements DBSchemaConstant {
 
     public Staff(Cursor cursor) {
         this.id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_STAFF));
-        this.idDepartment = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_STAFF));
-        this.status = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_STAFF));
-        this.position = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_STAFF));
+        this.idDepartment = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_DEPARTMENT));
+        this.status = cursor.getInt(cursor.getColumnIndex(COLUMN_STATUS));
+        this.position = cursor.getInt(cursor.getColumnIndex(COLUMN_POSITION));
         this.name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_STAFF));
         this.birthday = cursor.getString(cursor.getColumnIndex(COLUMN_BIRTHDAY));
         this.placeOfBirth = cursor.getString(cursor.getColumnIndex(COLUMN_PLACEOFBIRTH));

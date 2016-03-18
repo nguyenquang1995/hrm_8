@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.framgia.project1.humanresourcemanagement.data.model.DBSchemaConstant;
 
-/**
- * Created by nguyenxuantung on 11/03/2016.
- */
 public class DataBaseHelper extends SQLiteOpenHelper implements DBSchemaConstant {
 
     private static final String DATABASE_NAME = "staffManager.db"; // name of database
