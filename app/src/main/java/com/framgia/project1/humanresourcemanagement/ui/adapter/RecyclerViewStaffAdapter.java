@@ -54,13 +54,30 @@ public class RecyclerViewStaffAdapter extends RecyclerView.Adapter<RecyclerViewS
 
         @Override
         public void onClick(View v) {
+            startProfileActivity();
+        }
+
+        private void startProfileActivity() {
             Staff staff = mListStaff.get(getPosition());
             ArrayList<String> profileData = new ArrayList<String>();
             profileData.add(Constant.PLACE_OF_BIRTH, staff.getPlaceOfBirth());
             profileData.add(Constant.BIRTH_DAY, staff.getBirthday());
             profileData.add(Constant.PHONE_NUMBER, staff.getPhoneNumber());
             profileData.add(Constant.POSITION, "");
-            profileData.add(Constant.STATUS, "");
+            switch (staff.getStatus()) {
+                case Constant.STATUS_LEFT_JOB:
+                    profileData.add(Constant.STATUS, "left-job");
+                    break;
+                case Constant.STATUS_INTERNSHIP:
+                    profileData.add(Constant.STATUS, "InternShip");
+                    break;
+                case Constant.STATUS_TRAINEE:
+                    profileData.add(Constant.STATUS, "Trainee");
+                    break;
+                case Constant.STATUS_OFFICAL_STAFF:
+                    profileData.add(Constant.STATUS, "Offical staff");
+                    break;
+            }
             Intent intent = new Intent(mContext, ProfileActivity.class);
             intent.putStringArrayListExtra(Constant.INTENT_DATA, profileData);
             intent.putExtra(Constant.INTENT_DATA_TITLE, staff.getName());
