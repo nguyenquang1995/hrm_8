@@ -1,7 +1,6 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
 public interface DBSchemaConstant {
-
     // columns of tblDepartment
     public static final String COLUMN_ID_DEPARTMENT = "idDep";
     public static final String COLUMN_NAME_DEPARTMENT = "nameDep";

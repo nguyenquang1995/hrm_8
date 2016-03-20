@@ -14,15 +14,14 @@ import android.view.View;
 
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.DepartmentDAO;
-import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewDepartmentAdapter;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.R;
+import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyOnClickListener {
     private List<Department> listDepartment;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
     private DepartmentDAO departmentDAO;
+    RecyclerViewDepartmentAdapter mRecyclerViewDepartmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         departmentDAO = new DepartmentDAO(this);
         listDepartment = departmentDAO.getListDepartment();
-        RecyclerViewDepartmentAdapter recyclerViewDepartmentAdapter = new RecyclerViewDepartmentAdapter(this, listDepartment);
-        recyclerView.setAdapter(recyclerViewDepartmentAdapter);
+        mRecyclerViewDepartmentAdapter = new RecyclerViewDepartmentAdapter(this, listDepartment);
+        mRecyclerViewDepartmentAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(mRecyclerViewDepartmentAdapter);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -89,5 +89,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Department department = listDepartment.get(position);
+        Intent intent = new Intent(MainActivity.this, ListStaffActivity.class);
+        intent.putExtra(Constant.INTENT_DATA_TITLE, department.getName());
+        intent.putExtra(Constant.INTENT_DATA, department.getId());
+        startActivity(intent);
     }
 }

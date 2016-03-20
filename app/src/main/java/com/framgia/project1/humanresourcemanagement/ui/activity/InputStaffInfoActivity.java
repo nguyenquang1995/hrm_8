@@ -36,8 +36,8 @@ public class InputStaffInfoActivity extends AppCompatActivity implements DBSchem
     ImageView imageAvatar;
     EditText edtName, edtBirth, edtPlaceBirth, edtPhone;
     Spinner spnStatus, spnPosition, spnDepartment;
-    //attribute of staff
 
+    //attribute of staff
     String name, birthDay, placeBirth, phone, avatar = Constant.NOAVARTAR;
     int position = -1, status = -1, idDepartment = -1, idStaff = -1;
     private static final int select_photo = 100;
@@ -112,7 +112,6 @@ public class InputStaffInfoActivity extends AppCompatActivity implements DBSchem
     private void checkActivityModifi() {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(Constant.ID);
-        toolbar.setTitle(intent.getCharSequenceExtra(Constant.INTENT_DATA_TITLE));
         if (bundle != null && (idStaff = bundle.getInt(Constant.ID_INTENT)) > -1) {
             Cursor cursor = remote.searchStaff(idStaff);
             if (cursor.moveToFirst()) {
@@ -162,7 +161,7 @@ public class InputStaffInfoActivity extends AppCompatActivity implements DBSchem
 
         //set position spinner
         spnPosition = (Spinner) findViewById(R.id.spnPosition);
-        ArrayAdapter<String> adapterPosition = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_layout, getResources().getStringArray(R.array.ListPosition));
+        ArrayAdapter<String> adapterPosition = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_layout, getResources().getStringArray(R.array.array_position));
         adapterPosition.setDropDownViewResource(R.layout.spinner_layout);
         spnPosition.setAdapter(adapterPosition);
         spnPosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -178,7 +177,7 @@ public class InputStaffInfoActivity extends AppCompatActivity implements DBSchem
 
         //set status spinner
         spnStatus = (Spinner) findViewById(R.id.spnStatus);
-        ArrayAdapter<String> adapterStatus = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_layout, getResources().getStringArray(R.array.ListStatus));
+        ArrayAdapter<String> adapterStatus = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_layout, getResources().getStringArray(R.array.array_status));
         adapterStatus.setDropDownViewResource(R.layout.spinner_layout);
         spnStatus.setAdapter(adapterStatus);
         spnStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

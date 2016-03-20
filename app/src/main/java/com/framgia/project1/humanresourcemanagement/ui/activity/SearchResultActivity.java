@@ -1,31 +1,29 @@
 package com.framgia.project1.humanresourcemanagement.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
 import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewStaffAdapter;
-
+import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
-
-public class SearchResultActivity extends AppCompatActivity {
+public class SearchResultActivity extends AppCompatActivity implements MyOnClickListener {
     private Toolbar mToolbar;
     private String textSearch;
     private SearchView.OnQueryTextListener mSearchViewListener;
@@ -33,14 +31,18 @@ public class SearchResultActivity extends AppCompatActivity {
     private MenuItem mSearchMenuItem;
     private RecyclerView recyclerView;
     private RecyclerViewStaffAdapter recyclerViewStaffAdapter;
-    private Spinner mSpinnerTypeSearch;
-    private List<Staff> listStaff;
+    private MaterialSpinner mSpinnerTypeSearch;
+    private List<Staff> mListStaff;
     private DatabaseRemote mDatabaseRemote;
+    private int mTypeSearch;
+    private boolean isOnQueryTextChangeSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+        mTypeSearch = Constant.SEARCH_BY_NAME;
+        isOnQueryTextChangeSearch = false;
         findView();
     }
 
@@ -52,49 +54,53 @@ public class SearchResultActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_list_staff);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
         doSearch();
-        recyclerViewStaffAdapter = new RecyclerViewStaffAdapter(this, listStaff);
+        recyclerViewStaffAdapter = new RecyclerViewStaffAdapter(this, mListStaff);
+        recyclerViewStaffAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(recyclerViewStaffAdapter);
         mSearchViewListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 textSearch = query;
                 doSearch();
-                recyclerViewStaffAdapter = new RecyclerViewStaffAdapter(getApplicationContext(), listStaff);
-                recyclerView.setAdapter(recyclerViewStaffAdapter);
+                recyclerViewStaffAdapter.resetAdapter(mListStaff);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                textSearch = newText;
-                doSearch();
-                recyclerViewStaffAdapter = new RecyclerViewStaffAdapter(getApplicationContext(), listStaff);
-                recyclerView.setAdapter(recyclerViewStaffAdapter);
+                if(!newText.equals("")) {
+                    if (isOnQueryTextChangeSearch) {
+                        textSearch = newText;
+                        doSearch();
+                        recyclerViewStaffAdapter.resetAdapter(mListStaff);
+                    } else {
+                        isOnQueryTextChangeSearch = true;
+                    }
+                }
                 return false;
             }
         };
-        mSpinnerTypeSearch = (Spinner) findViewById(R.id.spinner_type_search);
-        String[] types = getResources().getStringArray(R.array.array_spinner_type_search);
+        mSpinnerTypeSearch = (MaterialSpinner) findViewById(R.id.spinner_type_search);
+        final String[] types = getResources().getStringArray(R.array.array_spinner_type_search);
         List<String> listTypeSearch = new ArrayList<String>();
         for (String s : types) {
             listTypeSearch.add(s);
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinnerTypeSearch.setAdapter(spinnerAdapter);
-        mSpinnerTypeSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerTypeSearch.setItems(listTypeSearch);
+        mSpinnerTypeSearch.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                doSearch();
-                recyclerViewStaffAdapter = new RecyclerViewStaffAdapter(getApplicationContext(), listStaff);
-                recyclerView.setAdapter(recyclerViewStaffAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                mTypeSearch = position;
+                if(mTypeSearch == Constant.SEARCH_BY_PHONENUMBER) {
+                    textSearch = "";
+                    mSearchView.setQuery("", false);
+                    mSearchView.setInputType(InputType.TYPE_CLASS_PHONE);
+                }
+                else {
+                    mSearchView.setQuery("", false);
+                    mSearchView.setInputType(InputType.TYPE_CLASS_TEXT);
+                }
             }
         });
     }
@@ -103,7 +109,18 @@ public class SearchResultActivity extends AppCompatActivity {
         mDatabaseRemote = new DatabaseRemote(this);
         try {
             mDatabaseRemote.openDataBase();
-            listStaff = mDatabaseRemote.getListStaff(textSearch);
+            switch (mTypeSearch) {
+                case Constant.SEARCH_BY_NAME:
+                    mListStaff = mDatabaseRemote.getListStaff(textSearch);
+                    break;
+                case Constant.SEARCH_BY_DEPARTMENT:
+                    mListStaff = mDatabaseRemote.getListStaffByDepartment(textSearch);
+                    break;
+                case Constant.SEARCH_BY_PHONENUMBER:
+                        mListStaff = mDatabaseRemote.getListStaffByPhoneNumber(textSearch);
+                    break;
+            }
+
             mDatabaseRemote.closeDataBase();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,5 +147,19 @@ public class SearchResultActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startProfileActivity(position);
+    }
+
+    private void startProfileActivity(int position) {
+        Staff staff = mListStaff.get(position);
+        Intent intent = new Intent(SearchResultActivity.this, ProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constant.INTENT_DATA, staff);
+        intent.putExtra(Constant.INTENT_DATA, bundle);
+        startActivity(intent);
     }
 }

@@ -8,14 +8,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/MyTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,19 +22,20 @@
             android:name=".ui.activity.ListStaffActivity"
             android:label="@string/title_activity_list_staff"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".ui.activity.MainActivity"/>
         <activity
             android:name=".ui.activity.SearchResultActivity"
             android:label="@string/title_activity_search_result"
             android:parentActivityName=".ui.activity.MainActivity"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.InputStaffInfoActivity"
             android:label="@string/title_activity_input_staff_info"
-            android:theme="@style/MyTheme" />
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 </manifest>

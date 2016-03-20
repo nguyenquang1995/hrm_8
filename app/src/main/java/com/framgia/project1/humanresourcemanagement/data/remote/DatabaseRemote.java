@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
+import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.DBSchemaConstant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
@@ -17,22 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseRemote implements DBSchemaConstant {
-
-    private SQLiteDatabase database;
-    private DataBaseHelper dbHelper;
+    private SQLiteDatabase mDatabase;
+    private DataBaseHelper mDbHelper;
 
     public DatabaseRemote(Context context) {
-        dbHelper = new DataBaseHelper(context);
+        mDbHelper = new DataBaseHelper(context);
     }
 
     //open database
     public void openDataBase() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        mDatabase = mDbHelper.getWritableDatabase();
     }
 
     //close database
     public void closeDataBase() throws SQLException {
-        database.close();
+        mDatabase.close();
     }
 
     //insert data into table department
@@ -42,7 +42,7 @@ public class DatabaseRemote implements DBSchemaConstant {
         contentValues.put(COLUMN_NAME_DEPARTMENT, department.getName());
         contentValues.put(COLUMN_IMAGE_DEPARTMENT, department.getImage());
         try {
-            result = database.insertOrThrow(TABLE_DEPARTMENT, null, contentValues);
+            result = mDatabase.insertOrThrow(TABLE_DEPARTMENT, null, contentValues);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class DatabaseRemote implements DBSchemaConstant {
         String name, image;
         Department de;
         Cursor cursor = null;
-        cursor = database.rawQuery(quey, null);
+        cursor = mDatabase.rawQuery(quey, null);
         List<Department> departmentList = new ArrayList<>();
         if (cursor != null) {
             cursor.moveToFirst();
@@ -74,11 +74,12 @@ public class DatabaseRemote implements DBSchemaConstant {
         int i = -1;
         String query = (COLUMN_NAME_DEPARTMENT + " like '%" + name + "%'");
         Cursor cursor = null;
-        cursor = database.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
+        cursor = mDatabase.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
             i = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_DEPARTMENT));
         }
+        cursor.close();
         return i;
     }
 
@@ -86,18 +87,19 @@ public class DatabaseRemote implements DBSchemaConstant {
     public String getNameDepartment(int id) {
         String result = null;
         String query = COLUMN_ID_DEPARTMENT + " = " + id;
-        Cursor cursor = database.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
             result = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEPARTMENT));
         }
+        cursor.close();
         return result;
     }
 
     //delete a record in department
     public boolean deleteDepartment(int id) {
         try {
-            database.delete(TABLE_DEPARTMENT, COLUMN_ID_DEPARTMENT + " = " + id, null);
+            mDatabase.delete(TABLE_DEPARTMENT, COLUMN_ID_DEPARTMENT + " = " + id, null);
         } catch (Exception e) {
             return false;
         }
@@ -117,33 +119,47 @@ public class DatabaseRemote implements DBSchemaConstant {
         values.put(COLUMN_AVATAR, staff.getImageAvatar());
         values.put(COLUMN_BIRTHDAY, staff.getBirthday());
         try {
-            result = database.insertOrThrow(TABLE_STAFF, null, values);
+            result = mDatabase.insertOrThrow(TABLE_STAFF, null, values);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    //get list of staff
-    public List<Staff> getListStaff() {
-        String query = "select * from " + TABLE_STAFF;
-        Cursor cursor = null;
-        cursor = database.rawQuery(query, null);
-        cursor.moveToFirst();
+    public List<Staff> getListStaff(int start, int departmentId) {
         List<Staff> staffList = new ArrayList<>();
-        while (!cursor.isAfterLast()) {
-            staffList.add(new Staff(cursor));
-            cursor.moveToNext();
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_ID_DEPARTMENT + " = " + departmentId
+                + " ORDER BY " + COLUMN_NAME_STAFF + " LIMIT " + Constant.STAFF_PER_PAGE + " " + "OFFSET " + start ;
+        Cursor cursor = null;
+        cursor = mDatabase.rawQuery(query, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                staffList.add(new Staff(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
         }
-        cursor.close();
         return staffList;
     }
-
-    public List<Staff> getListStaff(int departmentId) {
-        List<Staff> staffList = new ArrayList<>();
-        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_ID_DEPARTMENT + " = " + departmentId;
+    //get Staff from id
+    public Cursor searchStaff(int id) {
+        int i = -1;
+        String query = COLUMN_ID_STAFF + " = " + id;
         Cursor cursor = null;
-        cursor = database.rawQuery(query, null);
+        cursor = mDatabase.query(true, TABLE_STAFF, null, query, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public List<Staff> getListStaff(String staffName) {
+        List<Staff> staffList = new ArrayList<>();
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_NAME_STAFF
+                + " like '%" + staffName + "%'";
+        Cursor cursor = null;
+        cursor = mDatabase.rawQuery(query, null);
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -155,24 +171,49 @@ public class DatabaseRemote implements DBSchemaConstant {
         return staffList;
     }
 
-    //get Staff from id
-    public Cursor searchStaff(int id) {
-        int i = -1;
-        String query = COLUMN_ID_STAFF + " = " + id;
-        Cursor cursor = null;
-        cursor = database.query(true, TABLE_STAFF, null, query, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
+    public boolean updateStatus(int staffId, int status) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_STATUS, status);
+        String whereClause = COLUMN_ID_STAFF + " = " + staffId;
+        int result = mDatabase.update(TABLE_STAFF, values, whereClause, null);
+        return result > 0;
     }
 
-    public List<Staff> getListStaff(String staffName) {
+    public List<Staff> getListStaffByPhoneNumber(String phoneNumber) {
         List<Staff> staffList = new ArrayList<>();
-        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_NAME_STAFF + " like '%" + staffName + "%'";
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_PHONENUMBER + " like '%" + phoneNumber + "%'" ;
         Cursor cursor = null;
-        cursor = database.rawQuery(query, null);
-        if (cursor != null) {
+        cursor = mDatabase.rawQuery(query, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                staffList.add(new Staff(cursor));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return staffList;
+    }
+
+    public List<Staff> getListStaffByDepartment(String departmentName) {
+        List<Staff> staffList = new ArrayList<>();
+        String query = "select " + TABLE_STAFF + "." + COLUMN_ID_STAFF + ", "
+                + TABLE_DEPARTMENT+"." + COLUMN_NAME_DEPARTMENT +", "
+                + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT +", "
+                + TABLE_STAFF + "." + COLUMN_STATUS + ", "
+                + TABLE_STAFF + "." + COLUMN_POSITION + ", "
+                + TABLE_STAFF + "." + COLUMN_NAME_STAFF + ", "
+                + TABLE_STAFF + "." + COLUMN_BIRTHDAY + ", "
+                + TABLE_STAFF + "." + COLUMN_PLACEOFBIRTH + ", "
+                + TABLE_STAFF + "." + COLUMN_PHONENUMBER + ", "
+                + TABLE_STAFF + "." + COLUMN_AVATAR
+                + " from " + TABLE_STAFF + " INNER JOIN " + TABLE_DEPARTMENT
+                +" on " + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT + " = " + TABLE_DEPARTMENT + "." + COLUMN_ID_DEPARTMENT
+                + " where " + TABLE_DEPARTMENT + "." + COLUMN_NAME_DEPARTMENT + " like '%" + departmentName + "%'" ;
+
+        Cursor cursor = null;
+        cursor = mDatabase.rawQuery(query, null);
+        if(cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));
@@ -186,7 +227,7 @@ public class DatabaseRemote implements DBSchemaConstant {
     //delete a record in staff
     public boolean deleteStaff(int id) {
         try {
-            database.delete(TABLE_STAFF, COLUMN_ID_STAFF + " = " + id, null);
+            mDatabase.delete(TABLE_STAFF, COLUMN_ID_STAFF + " = " + id, null);
         } catch (Exception e) {
             return false;
         }
