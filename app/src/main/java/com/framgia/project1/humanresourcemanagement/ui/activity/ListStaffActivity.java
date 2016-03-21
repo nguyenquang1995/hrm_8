@@ -36,6 +36,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
     private Paginate paginate;
     private DatabaseRemote mDatabaseRemote;
     private int departmentId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
     }
 
     private void setupPagination() {
-        if(paginate != null) {
+        if (paginate != null) {
             paginate.unbind();
         }
         handler.removeCallbacks(fakeCallback);
@@ -98,7 +99,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
 
     @Override
     public boolean hasLoadedAllItems() {
-        if(itemLoaded == numberOfStaff) {
+        if (itemLoaded == numberOfStaff) {
             return true;
         }
         return false;
@@ -108,7 +109,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         @Override
         public void run() {
             int end = itemLoaded + Constant.STAFF_PER_PAGE;
-            if(end >= numberOfStaff) {
+            if (end >= numberOfStaff) {
                 end = numberOfStaff;
             }
             listStaff = allStaff.subList(itemLoaded, end);

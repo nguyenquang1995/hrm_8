@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
+
 import java.util.List;
 
 /**
@@ -30,7 +32,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(ProfileViewHolder holder, int position) {
-        holder.title.setText(Constant.titles[position]);
+        holder.title.setText(Constant.TITLES[position]);
         holder.content.setText(contents.get(position).toString());
     }
 
@@ -42,6 +44,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerVie
     class ProfileViewHolder extends RecyclerView.ViewHolder {
         protected TextView title;
         protected TextView content;
+
         public ProfileViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);

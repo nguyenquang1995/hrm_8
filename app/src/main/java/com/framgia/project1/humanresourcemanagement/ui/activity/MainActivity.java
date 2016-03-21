@@ -10,7 +10,10 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
+import com.framgia.project1.humanresourcemanagement.data.model.DepartmentDAO;
 import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewDepartmentAdapter;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView.OnQueryTextListener mSearchViewListener;
     private SearchView mSearchView;
     private MenuItem mSearchMenuItem;
-    private DatabaseRemote mDatabaseRemote;
+    private DepartmentDAO departmentDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,18 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_home);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        getListDepartment();
+        departmentDAO = new DepartmentDAO(this);
+        listDepartment = departmentDAO.getListDepartment();
         RecyclerViewDepartmentAdapter recyclerViewDepartmentAdapter = new RecyclerViewDepartmentAdapter(this, listDepartment);
         recyclerView.setAdapter(recyclerViewDepartmentAdapter);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, InputStaffInfoActivity.class);
+                startActivity(intent);
+            }
+        });
         mSearchViewListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -60,17 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         };
-    }
-
-    private void getListDepartment() {
-        mDatabaseRemote = new DatabaseRemote(this);
-        try {
-            mDatabaseRemote.openDataBase();
-            listDepartment = mDatabaseRemote.getDepartmentList();
-            mDatabaseRemote.closeDataBase();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

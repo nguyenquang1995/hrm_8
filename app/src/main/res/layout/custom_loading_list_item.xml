@@ -14,6 +14,5 @@
         app:cpb_rotation_speed="1.0"
         app:cpb_stroke_width="@dimen/circle_progressbar_stroke_width"
         app:cpb_sweep_speed="1.0"
-        app:cpb_colors="@array/color_array"/>
-    
+        app:cpb_colors="@array/color_array" />
 </LinearLayout>

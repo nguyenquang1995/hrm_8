@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
 import com.framgia.project1.humanresourcemanagement.data.model.DBSchemaConstant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
+
 import java.sql.SQLData;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
@@ -40,7 +42,7 @@ public class DatabaseRemote implements DBSchemaConstant {
         contentValues.put(COLUMN_NAME_DEPARTMENT, department.getName());
         contentValues.put(COLUMN_IMAGE_DEPARTMENT, department.getImage());
         try {
-            result = database.insertOrThrow(DBSchemaConstant.TABLE_DEPARTMENT, null, contentValues);
+            result = database.insertOrThrow(TABLE_DEPARTMENT, null, contentValues);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,14 +51,14 @@ public class DatabaseRemote implements DBSchemaConstant {
 
     // get list of department
     public List<Department> getDepartmentList() {
-        String quey = "select * from " + DBSchemaConstant.TABLE_DEPARTMENT;
+        String quey = "select * from " + TABLE_DEPARTMENT;
         int id;
         String name, image;
         Department de;
         Cursor cursor = null;
         cursor = database.rawQuery(quey, null);
         List<Department> departmentList = new ArrayList<>();
-        if (cursor.getCount() > 0) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 departmentList.add(new Department(cursor));
@@ -65,6 +67,31 @@ public class DatabaseRemote implements DBSchemaConstant {
             cursor.close();
         }
         return departmentList;
+    }
+
+    //find department by name
+    public int getIdDepartment(String name) {
+        int i = -1;
+        String query = (COLUMN_NAME_DEPARTMENT + " like '%" + name + "%'");
+        Cursor cursor = null;
+        cursor = database.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            i = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_DEPARTMENT));
+        }
+        return i;
+    }
+
+    //get name department from id
+    public String getNameDepartment(int id) {
+        String result = null;
+        String query = COLUMN_ID_DEPARTMENT + " = " + id;
+        Cursor cursor = database.query(true, TABLE_DEPARTMENT, null, query, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEPARTMENT));
+        }
+        return result;
     }
 
     //delete a record in department
@@ -117,7 +144,7 @@ public class DatabaseRemote implements DBSchemaConstant {
         String query = "select * from " + TABLE_STAFF + " where " + COLUMN_ID_DEPARTMENT + " = " + departmentId;
         Cursor cursor = null;
         cursor = database.rawQuery(query, null);
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));
@@ -128,12 +155,24 @@ public class DatabaseRemote implements DBSchemaConstant {
         return staffList;
     }
 
+    //get Staff from id
+    public Cursor searchStaff(int id) {
+        int i = -1;
+        String query = COLUMN_ID_STAFF + " = " + id;
+        Cursor cursor = null;
+        cursor = database.query(true, TABLE_STAFF, null, query, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public List<Staff> getListStaff(String staffName) {
         List<Staff> staffList = new ArrayList<>();
-        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_NAME_STAFF + " like '%" + staffName + "%'" ;
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_NAME_STAFF + " like '%" + staffName + "%'";
         Cursor cursor = null;
         cursor = database.rawQuery(query, null);
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));

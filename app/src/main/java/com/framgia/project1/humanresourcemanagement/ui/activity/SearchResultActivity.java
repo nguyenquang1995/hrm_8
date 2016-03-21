@@ -12,14 +12,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
 import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewStaffAdapter;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class SearchResultActivity extends AppCompatActivity {
