@@ -15,11 +15,9 @@ import java.util.List;
  * Created by hacks_000 on 3/14/2016.
  */
 public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerViewProfileAdapter.ProfileViewHolder> {
-
-    private List contents;
-
+    private List mContents;
     public RecyclerViewProfileAdapter(List contents) {
-        this.contents = contents;
+        this.mContents = contents;
     }
 
     @Override
@@ -33,7 +31,7 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(ProfileViewHolder holder, int position) {
         holder.title.setText(Constant.TITLES[position]);
-        holder.content.setText(contents.get(position).toString());
+        holder.content.setText(mContents.get(position).toString());
     }
 
     @Override

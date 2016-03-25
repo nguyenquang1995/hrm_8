@@ -9,15 +9,17 @@ public class Constant {
     public static final String NOAVARTAR = "no avatar";
     public static final String ID_INTENT = "id";
     public static final int NUMBER_OF_ITEM_PROFILE = 5;
-    public static final int STATUS_LEFT_JOB = 0;
-    public static final int STATUS_TRAINEE = 1;
-    public static final int STATUS_INTERNSHIP = 2;
-    public static final int STATUS_OFFICAL_STAFF = 3;
     public static final int PLACE_OF_BIRTH = 0;
     public static final int BIRTH_DAY = 1;
     public static final int PHONE_NUMBER = 2;
     public static final int POSITION = 3;
     public static final int STATUS = 4;
     public static final int STAFF_PER_PAGE = 30;
-    public static final int DELAY_TIME = 2000;
+    public static final int DELAY_TIME = 1000;
+    public static final int SEARCH_BY_NAME = 0;
+    public static final int SEARCH_BY_DEPARTMENT = 1;
+    public static final int SEARCH_BY_PHONENUMBER = 2;
+    public static final int CONTEXT_MENU_EDIT = 1;
+    public static final int CONTEXT_MENU_LEFT_JOB = 0;
+    public static final int STATUS_LEFT_JOB = 3;
 }

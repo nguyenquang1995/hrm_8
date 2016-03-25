@@ -22,9 +22,9 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_home"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_24dp" />
+        android:src="@drawable/ic_add_white_24dp"
+        app:elevation="@dimen/fab_elevation"/>
 
 </android.support.design.widget.CoordinatorLayout>

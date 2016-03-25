@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentDAO {
-    private Context context;
+    private Context mContext;
     private DatabaseRemote mDatabaseRemote;
-    private List<Department> listDepartment;
+    private List<Department> mListDepartment;
+    private List<Staff> mListStaff;
     public static List createDummyDepartmentData() {
         List<Department> listDepartment = new ArrayList<Department>();
         listDepartment.add(new Department("Trainning", 1, ""));
@@ -20,24 +21,42 @@ public class DepartmentDAO {
         return listDepartment;
     }
     public DepartmentDAO(Context context) {
-        this.context = context;
+        this.mContext = context;
     }
     public List<Department> getListDepartment() {
-        mDatabaseRemote = new DatabaseRemote(context);
+        mDatabaseRemote = new DatabaseRemote(mContext);
         try {
             mDatabaseRemote.openDataBase();
-            if (mDatabaseRemote.getDepartmentList().size() < 0) {
-                listDepartment = DepartmentDAO.createDummyDepartmentData();
-                int listDepartmentSize = listDepartment.size();
+            if (mDatabaseRemote.getDepartmentList().size() <= 0) {
+                mListDepartment = DepartmentDAO.createDummyDepartmentData();
+                int listDepartmentSize = mListDepartment.size();
                 for (int i = 0; i < listDepartmentSize; i++) {
-                    mDatabaseRemote.insertDepartment(listDepartment.get(i));
+                    mDatabaseRemote.insertDepartment(mListDepartment.get(i));
                 }
             } else
-                listDepartment = mDatabaseRemote.getDepartmentList();
+                mListDepartment = mDatabaseRemote.getDepartmentList();
             mDatabaseRemote.closeDataBase();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return listDepartment;
+        return mListDepartment;
+    }
+    public List<Staff> creatDummyStaffIfStaffIsEmpty(int departMentId) {
+        mDatabaseRemote = new DatabaseRemote(mContext);
+        try {
+            mDatabaseRemote.openDataBase();
+           if(mDatabaseRemote.getListStaff(-1, departMentId).size() <= 0) {
+               for(int i = 0; i < 30; i ++) {
+                   mDatabaseRemote.insertStaff(new Staff(4, departMentId, 2, 1, "Nguyen Thi Tuyet Nhung", "15-5-1994", "Nam Dinh", "", ""));
+               }
+               mDatabaseRemote.insertStaff(new Staff(1, departMentId, 0, 0, "Nguyễn Văn Quang", "2-9-1995", "Hà Nội", "0915057307", ""));
+               mDatabaseRemote.insertStaff(new Staff(2, departMentId, 2, 1, "Trần Mạnh Tiến", "12-12-1995", "Đông Anh", "0146753424646", ""));
+               mDatabaseRemote.insertStaff(new Staff(3, departMentId, 2, 2, "Trần Thị Hồng Thủy", "27-7-1994", "Nam Định", "07953854548", ""));
+           }
+            mDatabaseRemote.closeDataBase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mListStaff;
     }
 }

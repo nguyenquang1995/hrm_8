@@ -1,17 +1,21 @@
 <resources>
-    <string name="app_name">"HumanResourceManagement "</string>
+    <string name="app_name">"HR Manager"</string>
     <string-array name="array_spinner_type_search">
-        <item>Staff</item>
-        <item>Department</item>
-        <item>Phone number</item>
+        <item>Search staff by staff\'s name</item>
+        <item>Search staff by department\'s name</item>
+        <item>Search staff by staff\'s phone number</item>
     </string-array>
-    <string-array name="ListStatus">
+    <string-array name="array_context_menu_list_staff">
+        <item>Change staff to left-job</item>
+        <item>Edit profile</item>
+    </string-array>
+    <string-array name="array_status">
         <item>Trainee</item>
-        <item>Inter ship</item>
-        <item>Offical staff</item>
-        <item>Left job</item>
+        <item>Internship</item>
+        <item>Official staff</item>
+        <item>Left-job</item>
     </string-array>
-    <string-array name="ListPosition">
+    <string-array name="array_position">
         <item>Manager</item>
         <item>Leader</item>
         <item>Protector</item>
