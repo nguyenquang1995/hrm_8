@@ -129,10 +129,10 @@ public class DatabaseRemote implements DBSchemaConstant {
     public List<Staff> getListStaff(int start, int departmentId) {
         List<Staff> staffList = new ArrayList<>();
         String query = "select * from " + TABLE_STAFF + " where " + COLUMN_ID_DEPARTMENT + " = " + departmentId
-                + " ORDER BY " + COLUMN_NAME_STAFF + " LIMIT " + Constant.STAFF_PER_PAGE + " " + "OFFSET " + start ;
+                + " ORDER BY " + COLUMN_NAME_STAFF + " LIMIT " + Constant.STAFF_PER_PAGE + " " + "OFFSET " + start;
         Cursor cursor = null;
         cursor = mDatabase.rawQuery(query, null);
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));
@@ -142,6 +142,22 @@ public class DatabaseRemote implements DBSchemaConstant {
         }
         return staffList;
     }
+
+    public int updateStaff(int id, Staff staff) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME_STAFF, staff.getName());
+        values.put(COLUMN_AVATAR, staff.getImageAvatar());
+        values.put(COLUMN_ID_DEPARTMENT, staff.getIdDepartment());
+        values.put(COLUMN_BIRTHDAY, staff.getBirthday());
+        values.put(COLUMN_PHONENUMBER, staff.getPhoneNumber());
+        values.put(COLUMN_PLACEOFBIRTH, staff.getPlaceOfBirth());
+        values.put(COLUMN_POSITION, staff.getPosition());
+        values.put(COLUMN_STATUS, staff.getStatus());
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        int rowChange = mDatabase.update(TABLE_STAFF, values, COLUMN_ID_STAFF + " = ?", whereArgs);
+        return rowChange;
+    }
+
     //get Staff from id
     public Cursor searchStaff(int id) {
         int i = -1;
@@ -181,10 +197,10 @@ public class DatabaseRemote implements DBSchemaConstant {
 
     public List<Staff> getListStaffByPhoneNumber(String phoneNumber) {
         List<Staff> staffList = new ArrayList<>();
-        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_PHONENUMBER + " like '%" + phoneNumber + "%'" ;
+        String query = "select * from " + TABLE_STAFF + " where " + COLUMN_PHONENUMBER + " like '%" + phoneNumber + "%'";
         Cursor cursor = null;
         cursor = mDatabase.rawQuery(query, null);
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));
@@ -198,8 +214,8 @@ public class DatabaseRemote implements DBSchemaConstant {
     public List<Staff> getListStaffByDepartment(String departmentName) {
         List<Staff> staffList = new ArrayList<>();
         String query = "select " + TABLE_STAFF + "." + COLUMN_ID_STAFF + ", "
-                + TABLE_DEPARTMENT+"." + COLUMN_NAME_DEPARTMENT +", "
-                + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT +", "
+                + TABLE_DEPARTMENT + "." + COLUMN_NAME_DEPARTMENT + ", "
+                + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT + ", "
                 + TABLE_STAFF + "." + COLUMN_STATUS + ", "
                 + TABLE_STAFF + "." + COLUMN_POSITION + ", "
                 + TABLE_STAFF + "." + COLUMN_NAME_STAFF + ", "
@@ -208,12 +224,12 @@ public class DatabaseRemote implements DBSchemaConstant {
                 + TABLE_STAFF + "." + COLUMN_PHONENUMBER + ", "
                 + TABLE_STAFF + "." + COLUMN_AVATAR
                 + " from " + TABLE_STAFF + " INNER JOIN " + TABLE_DEPARTMENT
-                +" on " + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT + " = " + TABLE_DEPARTMENT + "." + COLUMN_ID_DEPARTMENT
-                + " where " + TABLE_DEPARTMENT + "." + COLUMN_NAME_DEPARTMENT + " like '%" + departmentName + "%'" ;
+                + " on " + TABLE_STAFF + "." + COLUMN_ID_DEPARTMENT + " = " + TABLE_DEPARTMENT + "." + COLUMN_ID_DEPARTMENT
+                + " where " + TABLE_DEPARTMENT + "." + COLUMN_NAME_DEPARTMENT + " like '%" + departmentName + "%'";
 
         Cursor cursor = null;
         cursor = mDatabase.rawQuery(query, null);
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 staffList.add(new Staff(cursor));

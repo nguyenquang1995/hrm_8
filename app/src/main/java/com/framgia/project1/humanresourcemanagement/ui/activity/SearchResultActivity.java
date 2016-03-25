@@ -19,6 +19,7 @@ import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewStaffAdapter;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class SearchResultActivity extends AppCompatActivity implements MyOnClick
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.equals("")) {
+                if (!newText.equals("")) {
                     if (isOnQueryTextChangeSearch) {
                         textSearch = newText;
                         doSearch();
@@ -92,12 +93,11 @@ public class SearchResultActivity extends AppCompatActivity implements MyOnClick
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 mTypeSearch = position;
-                if(mTypeSearch == Constant.SEARCH_BY_PHONENUMBER) {
+                if (mTypeSearch == Constant.SEARCH_BY_PHONENUMBER) {
                     textSearch = "";
                     mSearchView.setQuery("", false);
                     mSearchView.setInputType(InputType.TYPE_CLASS_PHONE);
-                }
-                else {
+                } else {
                     mSearchView.setQuery("", false);
                     mSearchView.setInputType(InputType.TYPE_CLASS_TEXT);
                 }
@@ -117,7 +117,7 @@ public class SearchResultActivity extends AppCompatActivity implements MyOnClick
                     mListStaff = mDatabaseRemote.getListStaffByDepartment(textSearch);
                     break;
                 case Constant.SEARCH_BY_PHONENUMBER:
-                        mListStaff = mDatabaseRemote.getListStaffByPhoneNumber(textSearch);
+                    mListStaff = mDatabaseRemote.getListStaffByPhoneNumber(textSearch);
                     break;
             }
 

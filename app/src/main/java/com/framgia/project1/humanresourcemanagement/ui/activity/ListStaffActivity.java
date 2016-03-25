@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
@@ -22,7 +21,6 @@ import com.framgia.project1.humanresourcemanagement.data.model.Staff;
 import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewStaffAdapter;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyCreateMenuContextListener;
-import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyLongClickListener;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
 import com.paginate.Paginate;
 import com.paginate.recycler.LoadingListItemCreator;
@@ -34,11 +32,11 @@ import java.util.List;
 public class ListStaffActivity extends AppCompatActivity implements Paginate.Callbacks, MyCreateMenuContextListener, MyOnClickListener {
     private List<Staff> mListStaff;
     private List<Staff> mListNextPage;
-    private Toolbar mToolbar; 
+    private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private RecyclerViewStaffAdapter mRecyclerViewStaffAdapter;
     private boolean loading;
-    private Handler mHandler; 
+    private Handler mHandler;
     private Paginate mPaginate;
     private DatabaseRemote mDatabaseRemote;
     private int departmentId;
@@ -73,8 +71,8 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list_staff);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
         getListStaff();
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerViewStaffAdapter = new RecyclerViewStaffAdapter(this, mListStaff);
         mRecyclerViewStaffAdapter.setOnItemClickListener(this);
         mRecyclerViewStaffAdapter.setOnCreateMenuContextListener(this);
@@ -94,7 +92,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
     }
 
     private void setupPagination() {
-        if(mListStaff.size() == Constant.STAFF_PER_PAGE) {
+        if (mListStaff.size() == Constant.STAFF_PER_PAGE) {
             if (mPaginate != null) {
                 mPaginate.unbind();
             }
@@ -143,18 +141,17 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         String[] menuItems = getResources().getStringArray(R.array.array_context_menu_list_staff);
         menu.setHeaderTitle(mListStaff.get(position).getName());
         int menuLength = menuItems.length;
-        for(int i = 0; i < menuLength; i ++) {
+        for (int i = 0; i < menuLength; i++) {
             menu.add(Menu.NONE, i, i, menuItems[i]);
         }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if(item.getItemId() == Constant.CONTEXT_MENU_LEFT_JOB) {
+        if (item.getItemId() == Constant.CONTEXT_MENU_LEFT_JOB) {
             changeStaffToLeftJob(mStaffChoosedPosition);
             return true;
-        }
-        else if(item.getItemId() == Constant.CONTEXT_MENU_EDIT) {
+        } else if (item.getItemId() == Constant.CONTEXT_MENU_EDIT) {
             startEditProfile(mStaffChoosedPosition);
             return true;
         }
@@ -197,7 +194,6 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
     }
 
     private class CustomLoadingItemCreator implements LoadingListItemCreator {
-
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -214,5 +210,12 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         public MyViewHolder(View view) {
             super(view);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListStaff();
+        mRecyclerViewStaffAdapter.resetAdapter(mListStaff);
     }
 }

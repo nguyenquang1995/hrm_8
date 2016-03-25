@@ -22,4 +22,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/activity_input_staff_info" />
+
 </android.support.design.widget.CoordinatorLayout>

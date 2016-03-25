@@ -44,10 +44,13 @@
                 android:text="@string/birthday"
                 android:id="@+id/textDateOfBirth" />
 
-            <EditText
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtDateOfBirth" />
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/birthtextsize"
+                android:hint="@string/changeBirth"
+                android:id="@+id/txtDateOfBirth" />
         </TableRow>
 
         <TableRow
@@ -93,28 +96,13 @@
                 android:text="@string/avatar"
                 android:id="@+id/textAvatar" />
 
-            <ImageView
+            <ImageButton
                 android:layout_width="@dimen/image_width"
                 android:layout_height="@dimen/image_height"
                 android:src="@drawable/origin_avatar"
+                android:background="@color/invisible"
                 android:scaleType="fitCenter"
                 android:id="@+id/avatar" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/choose"
-                android:layout_column="2"
-                android:textSize="@dimen/text_size"
-                android:id="@+id/btnChoose" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ignore"
-                android:layout_column="2"
-                android:textSize="@dimen/text_size"
-                android:id="@+id/btnBoChon" />
         </TableRow>
 
         <TableRow
@@ -177,6 +165,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
+                android:textColor="@color/black"
+                android:background="@color/primary"
                 android:layout_column="1"
                 android:id="@+id/btnSubmit" />
         </TableRow>

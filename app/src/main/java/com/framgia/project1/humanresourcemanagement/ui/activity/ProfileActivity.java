@@ -1,10 +1,15 @@
 package com.framgia.project1.humanresourcemanagement.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
@@ -19,17 +24,30 @@ public class ProfileActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List mProfileData;
     private Staff mStaff;
+    private ImageView image_staff;
+    private TextView name_staff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        image_staff = (ImageView) findViewById(R.id.imageViewStaff);
+        name_staff = (TextView) findViewById(R.id.textViewStaff);
+        getProfileData();
         findView();
     }
 
     private void findView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(getIntent().getCharSequenceExtra(Constant.INTENT_DATA_TITLE));
+        mToolbar.setTitle("");
+        String avatar = mStaff.getImageAvatar();
+        if (avatar.equals(Constant.NOAVARTAR))
+            image_staff.setImageResource(R.drawable.origin_avatar);
+        else {
+            Bitmap bitmap = BitmapFactory.decodeFile(avatar);
+            image_staff.setImageBitmap(bitmap);
+        }
+        name_staff.setText(mStaff.getName());
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_profile);

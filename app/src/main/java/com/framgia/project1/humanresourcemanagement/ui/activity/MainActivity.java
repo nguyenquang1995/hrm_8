@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MyOnClickListener
                 startActivity(intent);
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;

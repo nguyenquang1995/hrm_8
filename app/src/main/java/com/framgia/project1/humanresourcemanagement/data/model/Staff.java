@@ -4,8 +4,6 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.framgia.project1.humanresourcemanagement.data.local.DataBaseHelper;
-
 public class Staff implements DBSchemaConstant, Parcelable {
     private int mId;
     private int mIdDepartment;
