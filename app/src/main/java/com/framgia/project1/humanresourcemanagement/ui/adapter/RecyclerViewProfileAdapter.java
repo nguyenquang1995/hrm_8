@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerViewProfileAdapter.ProfileViewHolder> {
     private List mContents;
+
     public RecyclerViewProfileAdapter(List contents) {
         this.mContents = contents;
     }

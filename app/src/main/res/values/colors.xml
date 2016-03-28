@@ -11,6 +11,8 @@
     <color name="red">#F00</color>
     <color name="green">#0F0</color>
     <color name="blue">#00F</color>
+    <color name="black">#FFFFFF</color>
+    <color name="invisible">#00000000</color>
     <color name="yellow">#FF0</color>
     <integer-array name="color_array">
         <item>@color/red</item>

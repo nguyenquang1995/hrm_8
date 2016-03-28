@@ -22,6 +22,13 @@
         <item>Receptionist</item>
         <item>Secretary</item>
     </string-array>
+    <string-array name="list_department">
+        <item>Trainning</item>
+        <item>Singapore</item>
+        <item>crew</item>
+        <item>Asia</item>
+        <item>HR Department</item>
+    </string-array>
     <string name="action_search">Search</string>
     <string name="main_screen_title">List Department</string>
     <string name="title_activity_add_staff">Add Staff</string>
@@ -42,8 +49,10 @@
     <string name="title_activity_search_result">Search Result</string>
     <string name="title_activity_input_staff_info">Input Staff Information Activity</string>
     <string name="ADD_SUCCESSFUL">Add successful</string>
+    <string name="UPDATE_SUCCESSFUL">Update successful</string>
     <string name="ADD_FAILED">There are some errors, please check again</string>
     <string name="imagefail">Cannot choose a image</string>
     <string name="changeprofile">Change profile of staff</string>
     <string name="inputinfostaff">Input information for staff</string>
+    <string name="changeBirth">Click</string>
 </resources>

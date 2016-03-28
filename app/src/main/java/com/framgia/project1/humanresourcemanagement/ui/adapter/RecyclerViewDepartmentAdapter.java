@@ -62,7 +62,7 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
 
         @Override
         public void onClick(View v) {
-            if(mMyOnClickListener != null) {
+            if (mMyOnClickListener != null) {
                 mMyOnClickListener.onItemClick(v, mPosition);
             }
         }

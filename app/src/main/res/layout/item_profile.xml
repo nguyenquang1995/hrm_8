@@ -10,7 +10,6 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,15 +19,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textSize="@dimen/text_size2"
             android:layout_alignParentTop="true"
             android:gravity="center"/>
-
         <TextView
             android:id="@+id/content"
             android:text="@string/place_of_birth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/padding"
+            android:textSize="@dimen/text_size2"
+            android:textColor="@color/red"
+            android:layout_marginTop="@dimen/padding_layout"
             android:layout_below="@+id/title"
             android:gravity="center"/>
     </RelativeLayout>
