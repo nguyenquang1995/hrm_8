@@ -5,11 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.framgia.project1.humanresourcemanagement.R;
+import com.framgia.project1.humanresourcemanagement.data.model.Constant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
+import com.framgia.project1.humanresourcemanagement.ui.widget.ImageUtils;
 
 import java.util.List;
 
@@ -36,6 +39,9 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(DepartmentViewHolder departmentViewHolder, int i) {
         departmentViewHolder.textView.setText(listDepartment.get(i).getName());
+        //departmentViewHolder.imageView.setImageResource(Constant.DEPARTMENT_AVATAR[i]);
+        departmentViewHolder.imageView.setImageBitmap(ImageUtils.decodeSampleBitmapFromResource(
+                mContext.getResources(), Constant.DEPARTMENT_AVATAR[i], Constant.IMAGE_MAX_SIZE, Constant.IMAGE_MAX_SIZE));
         departmentViewHolder.mPosition = i;
     }
 
@@ -50,6 +56,7 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
 
     class DepartmentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView textView;
+        protected ImageView imageView;
         private MyOnClickListener mMyOnClickListener;
         private int mPosition;
 
@@ -58,6 +65,7 @@ public class RecyclerViewDepartmentAdapter extends RecyclerView.Adapter<Recycler
             this.mMyOnClickListener = listener;
             itemView.setOnClickListener(this);
             textView = (TextView) itemView.findViewById(R.id.text_view_department);
+            imageView = (ImageView) itemView.findViewById(R.id.img_department);
         }
 
         @Override

@@ -1,20 +1,24 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
 import android.database.Cursor;
+
 public class Department implements DBSchemaConstant {
     private String mName;
     private int mId;
     private String image;
+
     public Department(String name, int id, String image) {
         this.mName = name;
         this.mId = id;
         this.image = image;
     }
+
     public Department(Cursor cursor) {
         this.mId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_DEPARTMENT));
         this.mName = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_DEPARTMENT));
         this.image = cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_DEPARTMENT));
     }
+
     public String getName() {
         return mName;
     }

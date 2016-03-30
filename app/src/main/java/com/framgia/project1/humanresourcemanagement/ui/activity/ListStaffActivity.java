@@ -1,18 +1,18 @@
 package com.framgia.project1.humanresourcemanagement.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
@@ -22,26 +22,27 @@ import com.framgia.project1.humanresourcemanagement.data.remote.DatabaseRemote;
 import com.framgia.project1.humanresourcemanagement.ui.adapter.RecyclerViewStaffAdapter;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyCreateMenuContextListener;
 import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyOnClickListener;
-import com.paginate.Paginate;
-import com.paginate.recycler.LoadingListItemCreator;
+import com.framgia.project1.humanresourcemanagement.ui.mylistener.MyRecyclerViewScrollListener;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStaffActivity extends AppCompatActivity implements Paginate.Callbacks, MyCreateMenuContextListener, MyOnClickListener {
+public class ListStaffActivity extends AppCompatActivity implements MyCreateMenuContextListener, MyOnClickListener {
     private List<Staff> mListStaff;
     private List<Staff> mListNextPage;
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private RecyclerViewStaffAdapter mRecyclerViewStaffAdapter;
-    private boolean loading;
-    private Handler mHandler;
-    private Paginate mPaginate;
     private DatabaseRemote mDatabaseRemote;
-    private int departmentId;
+    private int mDepartmentId;
     private int mStartIndex;
+    private int mEndIndex;
     private int mStaffChoosedPosition;
+    private ProgressDialog mProgressDialog;
+    private LinearLayoutManager mLinearLayoutManager;
+    private boolean mStopLoadding;
+    private boolean mAsynTaskFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +50,47 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         setContentView(R.layout.activity_list_staff);
         init();
         findView();
-        setupPagination();
+        GetListStaffTask getListStaffTask = new GetListStaffTask();
+        getListStaffTask.execute();
+        mRecyclerViewStaffAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mStaffChoosedPosition != -1) {
+            try {
+                mDatabaseRemote.openDataBase();
+                Cursor cursor = mDatabaseRemote.searchStaff(mListStaff.get(mStaffChoosedPosition).getId());
+                Staff staff = new Staff(cursor);
+                mListStaff.remove(mStaffChoosedPosition);
+                if (staff.getIdDepartment() == mDepartmentId) {
+                    mListStaff.add(mStaffChoosedPosition, staff);
+                    mRecyclerViewStaffAdapter.notifyItemChanged(mStaffChoosedPosition);
+                }
+                else {
+                    mRecyclerViewStaffAdapter.notifyItemRemoved(mStaffChoosedPosition);
+                }
+
+                mDatabaseRemote.closeDataBase();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void init() {
         mDatabaseRemote = new DatabaseRemote(this);
-        mHandler = new Handler();
         mStartIndex = -1;
-        departmentId = getIntent().getIntExtra(Constant.INTENT_DATA, 0);
-        loading = false;
+        mStaffChoosedPosition = -1;
+        mEndIndex = 0;
+        mStopLoadding = false;
+        mAsynTaskFinish = true;
+        mDepartmentId = getIntent().getIntExtra(Constant.INTENT_DATA, 0);
         mListStaff = new ArrayList<>();
         mListNextPage = new ArrayList<>();
         DepartmentDAO departmentDAO = new DepartmentDAO(this);
-        departmentDAO.creatDummyStaffIfStaffIsEmpty(departmentId);
+        departmentDAO.creatDummyStaffIfStaffIsEmpty(mDepartmentId);
     }
 
     private void findView() {
@@ -70,70 +99,39 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list_staff);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        getListStaff();
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewStaffAdapter = new RecyclerViewStaffAdapter(this, mListStaff);
         mRecyclerViewStaffAdapter.setOnItemClickListener(this);
         mRecyclerViewStaffAdapter.setOnCreateMenuContextListener(this);
         mRecyclerView.setAdapter(mRecyclerViewStaffAdapter);
+        mRecyclerView.addOnScrollListener(new MyRecyclerViewScrollListener(mLinearLayoutManager) {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (isAbleLoadMore(mEndIndex) && dy > 0 && !mStopLoadding && mAsynTaskFinish) {
+                    GetListStaffTask getListStaffTask = new GetListStaffTask();
+                    getListStaffTask.execute();
+                }
+            }
+        });
         registerForContextMenu(mRecyclerView);
     }
 
     private void getListStaff() {
         try {
             mDatabaseRemote.openDataBase();
-            mListNextPage = mDatabaseRemote.getListStaff(mStartIndex, departmentId);
-            mListStaff = (mListNextPage.size() > 0) ? mListNextPage : mListStaff;
+            mListNextPage = mDatabaseRemote.getListStaff(mStartIndex, mDepartmentId);
+            if (mListNextPage.size() == 0) {
+                mStopLoadding = true;
+            }
+            mListStaff.addAll(mListNextPage);
+            mEndIndex = mListStaff.size();
             mDatabaseRemote.closeDataBase();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    private void setupPagination() {
-        if (mListStaff.size() == Constant.STAFF_PER_PAGE) {
-            if (mPaginate != null) {
-                mPaginate.unbind();
-            }
-            mHandler.removeCallbacks(fakeCallback);
-            mPaginate = Paginate.with(mRecyclerView, this)
-                    .addLoadingListItem(!hasLoadedAllItems())
-                    .setLoadingListItemCreator(new CustomLoadingItemCreator())
-                    .build();
-        }
-    }
-
-    @Override
-    public synchronized void onLoadMore() {
-        loading = true;
-        mHandler.postDelayed(fakeCallback, Constant.DELAY_TIME);
-    }
-
-    @Override
-    public synchronized boolean isLoading() {
-        return loading;
-    }
-
-    @Override
-    public boolean hasLoadedAllItems() {
-        boolean isLoadAll = false;
-        if (mListNextPage.size() == 0) {
-            isLoadAll = true;
-        }
-        return isLoadAll;
-    }
-
-    private Runnable fakeCallback = new Runnable() {
-        @Override
-        public void run() {
-            mStartIndex = mStartIndex + Constant.STAFF_PER_PAGE;
-            getListStaff();
-            mRecyclerViewStaffAdapter.resetAdapter(mListStaff);
-            loading = false;
-            setupPagination();
-        }
-    };
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo, int position) {
@@ -160,6 +158,7 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
 
     @Override
     public void onItemClick(View view, int position) {
+        mStaffChoosedPosition = position;
         startProfileActivity(position);
     }
 
@@ -185,37 +184,45 @@ public class ListStaffActivity extends AppCompatActivity implements Paginate.Cal
         try {
             mDatabaseRemote.openDataBase();
             mDatabaseRemote.updateStatus(mListStaff.get(position).getId(), Constant.STATUS_LEFT_JOB);
-            getListStaff();
-            mRecyclerViewStaffAdapter.resetAdapter(mListStaff);
+            mListStaff.get(position).setStatus(Constant.STATUS_LEFT_JOB);
+            mRecyclerViewStaffAdapter.notifyItemChanged(position);
             mDatabaseRemote.closeDataBase();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private class CustomLoadingItemCreator implements LoadingListItemCreator {
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.custom_loading_list_item, parent, false);
-            return new MyViewHolder(view);
-        }
+    private class GetListStaffTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        protected void onPreExecute() {
+            mAsynTaskFinish = false;
+            mProgressDialog = new ProgressDialog(ListStaffActivity.this);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setMessage(getResources().getString(R.string.loading));
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setProgress(Constant.PROGRESS_MIN);
+            mProgressDialog.setMax(Constant.PROGRESS_MAX);
+            mProgressDialog.show();
         }
-    }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        public MyViewHolder(View view) {
-            super(view);
+        @Override
+        protected Void doInBackground(Void... params) {
+            getListStaff();
+            try {
+                Thread.sleep(Constant.DELAY_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getListStaff();
-        mRecyclerViewStaffAdapter.resetAdapter(mListStaff);
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            mAsynTaskFinish = true;
+            mStartIndex += Constant.STAFF_PER_PAGE;
+            mProgressDialog.hide();
+            mRecyclerViewStaffAdapter.notifyDataSetChanged();
+        }
     }
 }

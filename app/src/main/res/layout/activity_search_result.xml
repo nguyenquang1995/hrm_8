@@ -15,20 +15,20 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:theme="@style/AppTheme.AppBarOverlay"/>
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/spinner_type_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/spinner_height"
-            android:id="@+id/spinner_type_search"
             android:background="@color/colorPrimaryDark"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_list_staff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_list_staff"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>

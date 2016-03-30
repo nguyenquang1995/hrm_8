@@ -12,6 +12,7 @@ public class DepartmentDAO {
     private Context mContext;
     private DatabaseRemote mDatabaseRemote;
     private List<Department> mListDepartment;
+
     public static List createDummyDepartmentData() {
         List<Department> listDepartment = new ArrayList<Department>();
         listDepartment.add(new Department("Trainning", 1, ""));
@@ -21,9 +22,11 @@ public class DepartmentDAO {
         listDepartment.add(new Department("HR Department", 5, ""));
         return listDepartment;
     }
+
     public DepartmentDAO(Context context) {
         this.mContext = context;
     }
+
     public List<Department> getListDepartment() {
         mDatabaseRemote = new DatabaseRemote(mContext);
         try {
@@ -48,12 +51,11 @@ public class DepartmentDAO {
         try {
             mDatabaseRemote.openDataBase();
             if (mDatabaseRemote.getListStaff(-1, departMentId).size() <= 0) {
-                for (int i = 0; i < 30; i++) {
-                    mDatabaseRemote.insertStaff(new Staff(4, departMentId, 2, 1, "Nguyen Thi Tuyet Nhung", "15-5-1994", "Nam Dinh", "0987402568", Constant.NOAVARTAR));
-                }
-                mDatabaseRemote.insertStaff(new Staff(1, departMentId, 0, 0, "Nguyễn Văn Quang", "2-9-1995", "Hà Nội", "0915057307", Constant.NOAVARTAR));
-                mDatabaseRemote.insertStaff(new Staff(2, departMentId, 2, 1, "Trần Mạnh Tiến", "12-12-1995", "Đông Anh", "0146753424646", Constant.NOAVARTAR));
-                mDatabaseRemote.insertStaff(new Staff(3, departMentId, 2, 2, "Trần Thị Hồng Thủy", "27-7-1994", "Nam Định", "07953854548", Constant.NOAVARTAR));
+                mDatabaseRemote.insertStaff(new Staff(4, departMentId, 2, 1, "Nguyen Thi Tuyet Nhung", "15/05/1994", "Nam Dinh", "0987402569", Constant.NOAVARTAR));
+                mDatabaseRemote.insertStaff(new Staff(1, departMentId, 0, 0, "Nguyễn Văn Quang", "02/09/1995", "Hà Nội", "0915057307", Constant.NOAVARTAR));
+                mDatabaseRemote.insertStaff(new Staff(2, departMentId, 2, 1, "Trần Mạnh Tiến", "12/12/1995", "Đông Anh", "0146753424646", Constant.NOAVARTAR));
+                mDatabaseRemote.insertStaff(new Staff(3, departMentId, 2, 2, "Trần Thị Hồng Thủy", "27/07/1994", "Nam Định", "07953854548", Constant.NOAVARTAR));
+                mDatabaseRemote.insertStaff(new Staff(4, departMentId, 2, 1, "Nguyen Xuân Tùng", "30/01/1995", "Hà Nội", "0988652313", Constant.NOAVARTAR));
             }
             mDatabaseRemote.closeDataBase();
         } catch (SQLException e) {

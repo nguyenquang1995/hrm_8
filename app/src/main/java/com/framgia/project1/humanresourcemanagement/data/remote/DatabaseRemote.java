@@ -11,8 +11,6 @@ import com.framgia.project1.humanresourcemanagement.data.model.DBSchemaConstant;
 import com.framgia.project1.humanresourcemanagement.data.model.Department;
 import com.framgia.project1.humanresourcemanagement.data.model.Staff;
 
-import java.sql.SQLData;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

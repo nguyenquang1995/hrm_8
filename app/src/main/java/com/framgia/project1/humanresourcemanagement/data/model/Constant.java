@@ -1,7 +1,10 @@
 package com.framgia.project1.humanresourcemanagement.data.model;
 
+import com.framgia.project1.humanresourcemanagement.R;
+
 public class Constant {
     public static final String[] TITLES = {"Place of birth", "Birthday", "Phone number", "Position", "Status"};
+    public static final int[] DEPARTMENT_AVATAR = {R.drawable.trainning, R.drawable.singapore, R.drawable.crew, R.drawable.asia, R.drawable.hr_department};
     public static final String INTENT_DATA = "data";
     public static final String INTENT_DATA_TITLE = "data_title";
     public static final String ID = "idStaff";
@@ -24,4 +27,7 @@ public class Constant {
     public static final int CONTEXT_MENU_LEFT_JOB = 0;
     public static final int STATUS_LEFT_JOB = 3;
     public static final int LENGTH_OF_DATE_FORMAT= 10;
+    public static final int PROGRESS_MAX = 100;
+    public static final int PROGRESS_MIN = 0;
+    public static final int IMAGE_MAX_SIZE = 200;
 }

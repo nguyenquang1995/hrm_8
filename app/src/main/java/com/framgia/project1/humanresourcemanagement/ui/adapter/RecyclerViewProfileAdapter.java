@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 import com.framgia.project1.humanresourcemanagement.R;
 import com.framgia.project1.humanresourcemanagement.data.model.Constant;
+import com.framgia.project1.humanresourcemanagement.data.model.Staff;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,14 @@ public class RecyclerViewProfileAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public RecyclerViewProfileAdapter(List contents) {
         this.mContents = contents;
+    }
+
+    public void resetAdapter(List<Staff> listStaff) {
+        List<Staff> storeList = new ArrayList<>();
+        storeList.addAll(listStaff);
+        mContents.clear();
+        mContents.addAll(storeList);
+        notifyDataSetChanged();
     }
 
     @Override

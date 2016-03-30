@@ -26,8 +26,7 @@
         <activity
             android:name=".ui.activity.ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ui.activity.MainActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.SearchResultActivity"
             android:label="@string/title_activity_search_result"
@@ -35,7 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.InputStaffInfoActivity"
-            android:label="@string/title_activity_input_staff_info"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 </manifest>
